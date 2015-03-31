@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#000000"
+    android:padding="1dp"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon1"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon2"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon3"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon4"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon5"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon6"></include>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="1">
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon7"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon8"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon9"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon10"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon11"></include>
+        <include
+            layout="@layout/grid_launcher_icon"
+            android:id="@+id/icon12"></include>
+        </LinearLayout>
+</LinearLayout>
