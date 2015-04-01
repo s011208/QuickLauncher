@@ -12,6 +12,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/container1"
             android:layout_width="0dp"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
@@ -31,12 +32,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title1"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_alignParentTop="true"
                 android:id="@+id/icon1"></include>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container2"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -55,12 +58,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title2"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_alignParentTop="true"
                 android:id="@+id/icon2"></include>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container3"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -79,12 +84,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title3"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_alignParentTop="true"
                 android:id="@+id/icon3"></include>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container4"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -101,6 +108,7 @@
             <include
                 layout="@layout/grid_launcher_icon"
                 android:layout_width="match_parent"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title4"
                 android:layout_alignParentTop="true"
@@ -109,6 +117,7 @@
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container5"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -127,12 +136,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title5"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_alignParentTop="true"
                 android:id="@+id/icon5"></include>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container6"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -151,6 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title6"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_alignParentTop="true"
                 android:id="@+id/icon6"></include>
         </RelativeLayout>
@@ -164,6 +176,7 @@
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container7"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -180,6 +193,7 @@
             <include
                 layout="@layout/grid_launcher_icon"
                 android:layout_width="match_parent"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title7"
                 android:layout_alignParentTop="true"
@@ -188,6 +202,7 @@
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container8"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -204,6 +219,7 @@
             <include
                 layout="@layout/grid_launcher_icon"
                 android:layout_width="match_parent"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title8"
                 android:layout_alignParentTop="true"
@@ -212,6 +228,7 @@
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container9"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -229,12 +246,14 @@
                 layout="@layout/grid_launcher_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_above="@id/title9"
                 android:layout_alignParentTop="true"
                 android:id="@+id/icon9"></include>
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/container10"
             android:layout_width="0dp"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
@@ -254,11 +273,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/title10"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_alignParentTop="true"
                 android:id="@+id/icon10"></include>
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/container11"
             android:layout_width="0dp"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
@@ -279,11 +300,13 @@
                 android:layout_height="match_parent"
                 android:layout_above="@id/title11"
                 android:layout_alignParentTop="true"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:id="@+id/icon11"></include>
         </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="0dp"
+            android:id="@+id/container12"
             android:layout_margin="@dimen/notification_launcher_cell_margin"
             android:layout_height="match_parent"
             android:background="#30ffffff"
@@ -301,6 +324,7 @@
                 layout="@layout/grid_launcher_icon"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_margin="@dimen/notification_launcher_icon_margin"
                 android:layout_above="@id/title12"
                 android:layout_alignParentTop="true"
                 android:id="@+id/icon12"></include>

@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="0dp"
-    android:layout_weight="1"
-    android:drawableTop="@drawable/ic_launcher"
-    android:text="123"
-    android:background="#30ffffff"
-    android:gravity="center"
-    android:layout_margin="1px"
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:scaleType="centerInside"
     android:layout_height="match_parent">
 
-</TextView>
+</ImageView>
