@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import yhh.bj4.quicklauncher.notification.NotificationLauncher;
+import yhh.bj4.quicklauncher.notification.NotificationLauncherFactory;
 
 
 public class MainActivity extends Activity {
@@ -18,7 +19,7 @@ public class MainActivity extends Activity {
     }
 
     private void initComponents(){
-        mNotificationLauncher = NotificationLauncher.getInstance(this);
+        mNotificationLauncher = NotificationLauncherFactory.getInstance(this).create();
     }
 
 
