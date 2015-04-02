@@ -4,9 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.graphics.Bitmap;
 
 import java.util.List;
 
@@ -17,47 +15,36 @@ public class IconInfo implements Comparable<IconInfo> {
     public static final int TYPE_APPLICATION = 0;
     public static final int TYPE_SHORTCUT = 1;
 
-    private static final String JSON_PACKAGENAME = "packageName";
-    private static final String JSON_CLASSNAME = "className";
-    private static final String JSON_TYPE = "type";
-    private static final String JSON_RANK = "rank";
     public String mPackageName;
     public String mClassName;
-    public int mType;
+    public String mTitle;
+    public int mIconType;
     public int mRank;
+    public int mId;
+    public Bitmap mIcon;
 
-    public IconInfo(ResolveInfo info, int rank) {
-        mPackageName = info.activityInfo.packageName;
-        mClassName = info.activityInfo.name;
-        mRank = rank;
-        mType = TYPE_APPLICATION;
-    }
-
-    public IconInfo(String pkg, String clz, int rank) {
+    public IconInfo(String pkg, String clz, String title, int rank, Bitmap icon) {
         mPackageName = pkg;
         mClassName = clz;
+        mTitle = title;
         mRank = rank;
-        mType = TYPE_APPLICATION;
+        mIconType = TYPE_APPLICATION;
+        mIcon = icon;
     }
 
-    public IconInfo(String rawString) {
-        try {
-            JSONObject json = new JSONObject(rawString);
-            mType = json.getInt(JSON_TYPE);
-            mRank = json.getInt(JSON_RANK);
-            if (mType == TYPE_APPLICATION) {
-                mPackageName = json.getString(JSON_PACKAGENAME);
-                mClassName = json.getString(JSON_CLASSNAME);
-            } else {
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public IconInfo(String packageName, String className, String title, int id, int iconType, int rank, Bitmap icon) {
+        mPackageName = packageName;
+        mClassName = className;
+        mTitle = title;
+        mId = id;
+        mIconType = iconType;
+        mRank = rank;
+        mIcon = icon;
     }
 
     public Intent getIntent() {
         final Intent intent = new Intent();
-        if (mType == TYPE_APPLICATION) {
+        if (mIconType == TYPE_APPLICATION) {
             intent.setAction(Intent.ACTION_MAIN);
             intent.setClassName(mPackageName, mClassName);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
@@ -70,25 +57,14 @@ public class IconInfo implements Comparable<IconInfo> {
         return PendingIntent.getActivity(context, 0, getIntent(), 0);
     }
 
-    public static JSONObject toJson(IconInfo iconInfo) {
-        JSONObject json = new JSONObject();
-        try {
-            json.put(JSON_TYPE, iconInfo.mType);
-            json.put(JSON_RANK, iconInfo.mRank);
-            if (iconInfo.mType == TYPE_APPLICATION) {
-                json.put(JSON_PACKAGENAME, iconInfo.mPackageName);
-                json.put(JSON_CLASSNAME, iconInfo.mClassName);
-            } else {
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return json;
-    }
-
     @Override
     public String toString() {
-        return toJson(this).toString();
+        return "mPackageName: " + mPackageName
+                + ", mClassName: " + mClassName
+                + ", mRank: " + mRank
+                + ", mIconType: " + mIconType
+                + ", mId: " + mId
+                + ", mTitle: " + mTitle;
     }
 
     @Override

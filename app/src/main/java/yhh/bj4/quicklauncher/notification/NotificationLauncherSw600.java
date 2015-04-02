@@ -60,15 +60,4 @@ public class NotificationLauncherSw600 extends NotificationLauncher {
     public String getPreferenceKey() {
         return TAG;
     }
-
-    @Override
-    public IconInfo[] getIconInfos() {
-        IconInfo[] rtn = new IconInfo[getMaximumItemSize()];
-        final PackageManager pm = mContext.getPackageManager();
-        List<ResolveInfo> activities = Utils.getAllMainActivities(mContext);
-        for (int i = 0; i < rtn.length; i++) {
-            rtn[i] = new IconInfo(activities.get(i), 0);
-        }
-        return rtn;
-    }
 }

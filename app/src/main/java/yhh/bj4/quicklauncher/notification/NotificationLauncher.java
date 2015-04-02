@@ -7,12 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.widget.RemoteViews;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import yhh.bj4.quicklauncher.IconInfo;
@@ -36,10 +35,31 @@ public abstract class NotificationLauncher {
 
     private final SharedPreferences mPrefs;
 
+    final NotificationLauncherIconInfoDatabase mDatabase;
+
+    private final int mIconSize;
+
     public NotificationLauncher(Context context) {
         mContext = context;
+        mIconSize = mContext.getResources().getDimensionPixelSize(R.dimen.notification_launcher_icon_size);
         getMaximumItemSize();
         mPrefs = Utils.getPrefs(mContext);
+        mDatabase = NotificationLauncherIconInfoDatabase.getInstance(mContext);
+        mDatabase.createTablesIfNeeded(getPreferenceKey());
+        if (mDatabase.isEmpty(getPreferenceKey())) {
+            insertDefaultItems();
+        }
+    }
+
+    private void insertDefaultItems() {
+        List<ResolveInfo> activities = Utils.getAllMainActivities(mContext);
+        PackageManager pm = mContext.getPackageManager();
+        ArrayList<IconInfo> infos = new ArrayList<IconInfo>();
+        for (int i = 0; i < getMaximumItemSize() && i < activities.size(); i++) {
+            final ResolveInfo info = activities.get(i);
+            infos.add(new IconInfo(info.activityInfo.packageName, info.activityInfo.name, info.loadLabel(pm).toString(), i, Utils.getBoundBitmap(mIconSize, info.loadIcon(pm))));
+        }
+        mDatabase.setIconInfos(getPreferenceKey(), infos);
     }
 
     public abstract int getMaximumItemSize();
@@ -67,22 +87,39 @@ public abstract class NotificationLauncher {
         mContext.startService(new Intent(mContext, QuickLauncherService.class));
     }
 
-    public abstract IconInfo[] getIconInfos();
+    public IconInfo[] getIconInfos() {
+        ArrayList<IconInfo> infos = mDatabase.getIconInfos(getPreferenceKey());
+        IconInfo[] rtn = new IconInfo[infos.size()];
+        for (int i = 0; i < infos.size(); i++) {
+            rtn[i] = infos.get(i);
+        }
+        return rtn;
+    }
 
     void setTitleAndIcon(int index, int titleId, int iconId, int containerId, RemoteViews rv, List<ResolveInfo> activities
             , PackageManager pm) {
-        final int iconSize = mContext.getResources().getDimensionPixelSize(R.dimen.notification_launcher_icon_size);
-        String title = activities.get(index).loadLabel(pm).toString();
-        Drawable icon = activities.get(index).loadIcon(pm);
-        icon.setBounds(0, 0, iconSize, iconSize);
-        Bitmap bIcon = Bitmap.createBitmap(iconSize, iconSize, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas();
-        canvas.setBitmap(bIcon);
-        icon.draw(canvas);
-        canvas.setBitmap(null);
-        rv.setTextViewText(titleId, title);
-        rv.setImageViewBitmap(iconId, bIcon);
-        IconInfo info = new IconInfo(activities.get(index), 0);
+        IconInfo info = getIconInfos()[index];
+        rv.setTextViewText(titleId, info.mTitle);
+        rv.setImageViewBitmap(iconId, info.mIcon);
         rv.setOnClickPendingIntent(containerId, info.getPendingIntent(mContext));
+    }
+
+    public void setIconInfo(int rank, ResolveInfo info) {
+        boolean find = false;
+        for (IconInfo iconInfo : getIconInfos()) {
+            if (iconInfo.mRank == rank) {
+                iconInfo.mPackageName = info.activityInfo.packageName;
+                iconInfo.mClassName = info.activityInfo.name;
+                iconInfo.mTitle = info.loadLabel(mContext.getPackageManager()).toString();
+                iconInfo.mIcon.recycle();
+                iconInfo.mIcon = Utils.getBoundBitmap(mIconSize, info.loadIcon(mContext.getPackageManager()));
+                mDatabase.updateIconInfo(getPreferenceKey(), iconInfo);
+                find = true;
+                break;
+            }
+        }
+        if (find) {
+            notifyItemChanged();
+        }
     }
 }

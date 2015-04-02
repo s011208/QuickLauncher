@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <drawable name="notification_launcher_item_press">#80ffffff</drawable>
+    <drawable name="notification_launcher_item_unpress">#30ffffff</drawable>
+</resources>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import yhh.bj4.quicklauncher.IconInfo;
+import yhh.bj4.quicklauncher.IconSelectorDialogFragment;
 import yhh.bj4.quicklauncher.NotifiableFragment;
 import yhh.bj4.quicklauncher.QuickLauncherApplication;
 import yhh.bj4.quicklauncher.R;
@@ -23,7 +24,7 @@ import yhh.bj4.quicklauncher.Utils;
 /**
  * Created by yenhsunhuang on 15/4/2.
  */
-public class NotificationLauncherSettings extends NotifiableFragment implements AdapterView.OnItemClickListener {
+public class NotificationLauncherSettings extends NotifiableFragment implements AdapterView.OnItemClickListener, IconSelectorDialogFragment.Callback {
     public synchronized static NotificationLauncherSettings newInstance() {
         NotificationLauncherSettings f = new NotificationLauncherSettings();
         Bundle args = new Bundle();
@@ -36,11 +37,13 @@ public class NotificationLauncherSettings extends NotifiableFragment implements 
     private Context mContext;
     private GridView mGridView;
     private GridAdapter mGridAdapter;
+    private int mSelectedIndex;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mNotificationLauncher = QuickLauncherApplication.getNotificationLauncher();
+        mContext = getActivity();
     }
 
     @Override
@@ -57,19 +60,28 @@ public class NotificationLauncherSettings extends NotifiableFragment implements 
 
     @Override
     public void onPackageUpdated() {
-        mGridAdapter.reloadSystemData();
+        mGridAdapter.reloadData();
         mGridAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mSelectedIndex = position;
+        IconSelectorDialogFragment dialog = new IconSelectorDialogFragment();
+        dialog.setVariables(mContext, mNotificationLauncher, this);
+        dialog.show(getFragmentManager(), IconSelectorDialogFragment.class.toString());
+    }
 
+    @Override
+    public void onDialogItemSelected(ResolveInfo rInfo) {
+        mNotificationLauncher.setIconInfo(mSelectedIndex, rInfo);
+        onPackageUpdated();
     }
 
     private static class GridAdapter extends BaseAdapter {
         private final Context mContext;
         private final LayoutInflater mInflater;
-        private final IconInfo[] mIconInfos;
+        private IconInfo[] mIconInfos;
         private final NotificationLauncher mNotificationLauncher;
         private List<ResolveInfo> mResolveInfos;
         private int mDrawableSize;
@@ -78,13 +90,14 @@ public class NotificationLauncherSettings extends NotifiableFragment implements 
             mContext = context;
             mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             mNotificationLauncher = nl;
-            mIconInfos = mNotificationLauncher.getIconInfos();
+
             mDrawableSize = mContext.getResources().getDimensionPixelSize(R.dimen.notification_launcher_settings_icon_size);
-            reloadSystemData();
+            reloadData();
         }
 
-        void reloadSystemData() {
+        void reloadData() {
             mResolveInfos = Utils.getAllMainActivities(mContext);
+            mIconInfos = mNotificationLauncher.getIconInfos();
         }
 
         @Override
