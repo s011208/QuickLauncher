@@ -3,6 +3,7 @@ package yhh.bj4.quicklauncher.notification;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -15,6 +16,7 @@ import android.widget.RemoteViews;
 import java.util.List;
 
 import yhh.bj4.quicklauncher.IconInfo;
+import yhh.bj4.quicklauncher.QuickLauncherService;
 import yhh.bj4.quicklauncher.R;
 import yhh.bj4.quicklauncher.Utils;
 
@@ -22,12 +24,13 @@ import yhh.bj4.quicklauncher.Utils;
  * Created by yenhsunhuang on 15/3/31.
  */
 public abstract class NotificationLauncher {
+    static final boolean DEBUG = true;
 
     public static final int ITEM_OF_SW360 = 10;
     public static final int ITEM_OF_SW600 = 12;
     public static final int ITEM_OF_sw720 = 12;
 
-    private static final int NOTIFICATION_ID = NotificationLauncher.class.hashCode();
+    public static final int NOTIFICATION_ID = NotificationLauncher.class.hashCode();
 
     final Context mContext;
 
@@ -37,22 +40,34 @@ public abstract class NotificationLauncher {
         mContext = context;
         getMaximumItemSize();
         mPrefs = Utils.getPrefs(mContext);
-        showNotificationLauncher();
     }
 
     public abstract int getMaximumItemSize();
 
+    public abstract RemoteViews getGridLauncher(boolean isSmall);
+
+    public abstract String getPreferenceKey();
+
     public void showNotificationLauncher() {
         final NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(NOTIFICATION_ID);
+        mNotificationManager.notify(NOTIFICATION_ID, getNotification());
+    }
+
+    public Notification getNotification() {
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mContext);
         notificationBuilder.setSmallIcon(R.drawable.ic_notification, 0).setContent(getGridLauncher(true))
                 .setPriority(Notification.PRIORITY_MAX).setOngoing(false).setAutoCancel(false);
         final Notification notification = notificationBuilder.build();
         notification.bigContentView = getGridLauncher(false);
-        mNotificationManager.notify(NOTIFICATION_ID, notification);
+        return notification;
     }
 
-    public abstract RemoteViews getGridLauncher(boolean isSmall);
+    public void notifyItemChanged() {
+        mContext.startService(new Intent(mContext, QuickLauncherService.class));
+    }
+
+    public abstract IconInfo[] getIconInfos();
 
     void setTitleAndIcon(int index, int titleId, int iconId, int containerId, RemoteViews rv, List<ResolveInfo> activities
             , PackageManager pm) {
@@ -67,7 +82,7 @@ public abstract class NotificationLauncher {
         canvas.setBitmap(null);
         rv.setTextViewText(titleId, title);
         rv.setImageViewBitmap(iconId, bIcon);
-        IconInfo info = new IconInfo(activities.get(index));
+        IconInfo info = new IconInfo(activities.get(index), 0);
         rv.setOnClickPendingIntent(containerId, info.getPendingIntent(mContext));
     }
 }

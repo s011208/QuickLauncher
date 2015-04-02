@@ -8,6 +8,7 @@ import android.widget.RemoteViews;
 
 import java.util.List;
 
+import yhh.bj4.quicklauncher.IconInfo;
 import yhh.bj4.quicklauncher.R;
 import yhh.bj4.quicklauncher.Utils;
 
@@ -15,6 +16,7 @@ import yhh.bj4.quicklauncher.Utils;
  * Created by yenhsunhuang on 15/4/2.
  */
 public class NotificationLauncherSw600 extends NotificationLauncher {
+    private static final String TAG = "NotificationLauncherSw600";
 
     public NotificationLauncherSw600(Context context) {
         super(context);
@@ -52,5 +54,21 @@ public class NotificationLauncherSw600 extends NotificationLauncher {
             setTitleAndIcon(11, R.id.title12, R.id.icon12, R.id.container12, rv, activities, pm);
         }
         return rv;
+    }
+
+    @Override
+    public String getPreferenceKey() {
+        return TAG;
+    }
+
+    @Override
+    public IconInfo[] getIconInfos() {
+        IconInfo[] rtn = new IconInfo[getMaximumItemSize()];
+        final PackageManager pm = mContext.getPackageManager();
+        List<ResolveInfo> activities = Utils.getAllMainActivities(mContext);
+        for (int i = 0; i < rtn.length; i++) {
+            rtn[i] = new IconInfo(activities.get(i), 0);
+        }
+        return rtn;
     }
 }
