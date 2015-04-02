@@ -3,11 +3,16 @@ package yhh.bj4.quicklauncher;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 import yhh.bj4.quicklauncher.notification.NotificationLauncher;
 import yhh.bj4.quicklauncher.notification.NotificationLauncherSettings;
@@ -17,7 +22,35 @@ public class MainActivity extends Activity {
     private static final int FRAGMENT_NOTIFICATION_LAUNCHER_SETTINGS = 0;
     private NotificationLauncher mNotificationLauncher;
 
-    private final HashMap<Integer, Fragment> mFragments = new HashMap<Integer, Fragment>();
+    private final HashMap<Integer, NotifiableFragment> mFragments = new HashMap<Integer, NotifiableFragment>();
+
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (Intent.ACTION_PACKAGE_ADDED.equals(action) ||
+                    Intent.ACTION_PACKAGE_ADDED.equals(action) ||
+                    Intent.ACTION_PACKAGE_ADDED.equals(action)) {
+                final Iterator<NotifiableFragment> iter = mFragments.values().iterator();
+                while (iter.hasNext()) {
+                    iter.next().onPackageUpdated();
+                }
+            }
+        }
+    };
+
+    private void registerReceiverWhenOnCreate() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_PACKAGE_ADDED);
+        filter.addAction(Intent.ACTION_PACKAGE_CHANGED);
+        filter.addAction(Intent.ACTION_PACKAGE_REMOVED);
+        filter.addDataScheme("package");
+        registerReceiver(mReceiver, filter);
+    }
+
+    private void unregisterReceiverWhenOnDestroy() {
+        unregisterReceiver(mReceiver);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +58,20 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         initComponents();
         switchFragment(FRAGMENT_NOTIFICATION_LAUNCHER_SETTINGS);
+        registerReceiverWhenOnCreate();
+    }
 
+    @Override
+    protected void onDestroy() {
+        unregisterReceiverWhenOnDestroy();
+        super.onDestroy();
     }
 
     private void switchFragment(final int type) {
         final Fragment fragment = getFragment(type);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-//        transaction.addToBackStack(null);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
@@ -43,7 +82,7 @@ public class MainActivity extends Activity {
     private synchronized Fragment getFragment(final int type) {
         switch (type) {
             case FRAGMENT_NOTIFICATION_LAUNCHER_SETTINGS:
-                Fragment rtn = mFragments.get(FRAGMENT_NOTIFICATION_LAUNCHER_SETTINGS);
+                NotifiableFragment rtn = mFragments.get(FRAGMENT_NOTIFICATION_LAUNCHER_SETTINGS);
                 if (rtn == null) {
                     rtn = NotificationLauncherSettings.newInstance();
                     mFragments.put(FRAGMENT_NOTIFICATION_LAUNCHER_SETTINGS, rtn);

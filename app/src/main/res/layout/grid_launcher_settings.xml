@@ -5,7 +5,9 @@
     android:layout_height="match_parent">
 
     <GridView
-        android:padding="10dp"
+        android:padding="@dimen/notification_launcher_settings_grid_padding"
+        android:verticalSpacing="@dimen/notification_launcher_settings_vertical_spacing"
+        android:horizontalSpacing="@dimen/notification_launcher_settings_horizontal_spacing"
         android:id="@+id/notification_launcher_settings_grid"
         android:layout_gravity="center"
         android:layout_width="match_parent"
