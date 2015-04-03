@@ -71,7 +71,6 @@ public class MainActivity extends Activity {
         final Fragment fragment = getFragment(type);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 

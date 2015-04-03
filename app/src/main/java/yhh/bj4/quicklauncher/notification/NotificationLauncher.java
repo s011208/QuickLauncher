@@ -68,12 +68,6 @@ public abstract class NotificationLauncher {
 
     public abstract String getPreferenceKey();
 
-    public void showNotificationLauncher() {
-        final NotificationManager mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(NOTIFICATION_ID);
-        mNotificationManager.notify(NOTIFICATION_ID, getNotification());
-    }
-
     public Notification getNotification() {
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mContext);
         notificationBuilder.setSmallIcon(R.drawable.ic_notification, 0).setContent(getGridLauncher(true))
@@ -96,8 +90,7 @@ public abstract class NotificationLauncher {
         return rtn;
     }
 
-    void setTitleAndIcon(int index, int titleId, int iconId, int containerId, RemoteViews rv, List<ResolveInfo> activities
-            , PackageManager pm) {
+    void setTitleAndIcon(int index, int titleId, int iconId, int containerId, RemoteViews rv) {
         IconInfo info = getIconInfos()[index];
         rv.setTextViewText(titleId, info.mTitle);
         rv.setImageViewBitmap(iconId, info.mIcon);
