@@ -70,7 +70,7 @@ public abstract class NotificationLauncher {
 
     public Notification getNotification() {
         final NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(mContext);
-        notificationBuilder.setSmallIcon(R.drawable.ic_notification, 0).setContent(getGridLauncher(true))
+        notificationBuilder.setSmallIcon(R.drawable.ic_launcher, 0).setContent(getGridLauncher(true))
                 .setPriority(Notification.PRIORITY_MAX).setOngoing(false).setAutoCancel(false);
         final Notification notification = notificationBuilder.build();
         notification.bigContentView = getGridLauncher(false);

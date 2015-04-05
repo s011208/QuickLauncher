@@ -1,4 +1,4 @@
-package yhh.bj4.quicklauncher;
+package yhh.bj4.quicklauncher.Activity;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -14,13 +14,22 @@ import android.view.MenuItem;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import yhh.bj4.quicklauncher.Activity.IconSettings.IconSettingsContainer;
+import yhh.bj4.quicklauncher.QuickLauncherApplication;
+import yhh.bj4.quicklauncher.R;
 import yhh.bj4.quicklauncher.notification.NotificationLauncher;
 import yhh.bj4.quicklauncher.notification.NotificationLauncherSettings;
 
 
 public class MainActivity extends Activity {
     private static final int FRAGMENT_NOTIFICATION_LAUNCHER_SETTINGS = 0;
+
+
     private NotificationLauncher mNotificationLauncher;
+    private GestureController mGestureController;
+    private IconSettingsContainer mIconSettingsPanel;
+
+    private boolean mShowIconSettingsPanel = false;
 
     private final HashMap<Integer, NotifiableFragment> mFragments = new HashMap<Integer, NotifiableFragment>();
 
@@ -76,6 +85,36 @@ public class MainActivity extends Activity {
 
     private void initComponents() {
         mNotificationLauncher = QuickLauncherApplication.getNotificationLauncher();
+        mIconSettingsPanel = (IconSettingsContainer) findViewById(R.id.icon_settings_panel);
+        mGestureController = (GestureController) findViewById(R.id.gesture_controller);
+        mGestureController.setActivity(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mShowIconSettingsPanel) {
+            hideIconSettingsPanel(false);
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    public void showIconSettingsPanel(boolean immediately) {
+        if (mIconSettingsPanel == null)
+            return;
+        if (mShowIconSettingsPanel)
+            return;
+        mIconSettingsPanel.showContainer(immediately);
+        mShowIconSettingsPanel = true;
+    }
+
+    public void hideIconSettingsPanel(boolean immediately) {
+        if (mIconSettingsPanel == null)
+            return;
+        if (!mShowIconSettingsPanel)
+            return;
+        mIconSettingsPanel.hideContainer(immediately);
+        mShowIconSettingsPanel = false;
     }
 
     private synchronized Fragment getFragment(final int type) {
@@ -105,7 +144,8 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_icon_pack) {
+            showIconSettingsPanel(false);
             return true;
         }
 

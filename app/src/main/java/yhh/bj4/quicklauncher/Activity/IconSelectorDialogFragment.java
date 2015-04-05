@@ -1,4 +1,4 @@
-package yhh.bj4.quicklauncher;
+package yhh.bj4.quicklauncher.Activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import yhh.bj4.quicklauncher.R;
+import yhh.bj4.quicklauncher.Utils;
 import yhh.bj4.quicklauncher.notification.NotificationLauncher;
 
 /**

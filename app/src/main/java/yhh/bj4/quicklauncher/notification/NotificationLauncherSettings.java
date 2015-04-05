@@ -15,8 +15,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import yhh.bj4.quicklauncher.IconInfo;
-import yhh.bj4.quicklauncher.IconSelectorDialogFragment;
-import yhh.bj4.quicklauncher.NotifiableFragment;
+import yhh.bj4.quicklauncher.Activity.IconSelectorDialogFragment;
+import yhh.bj4.quicklauncher.Activity.NotifiableFragment;
 import yhh.bj4.quicklauncher.QuickLauncherApplication;
 import yhh.bj4.quicklauncher.R;
 import yhh.bj4.quicklauncher.Utils;

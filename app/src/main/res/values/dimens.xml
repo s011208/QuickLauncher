@@ -3,6 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
+    <!-- notification launcher-->
     <dimen name="notification_launcher_text_size">10sp</dimen>
     <dimen name="notification_launcher_cell_margin">1dp</dimen>
     <dimen name="notification_launcher_icon_margin">2dp</dimen>
@@ -11,9 +12,13 @@
     <dimen name="notification_launcher_row_height">64dp</dimen>
     <dimen name="notification_launcher_icon_size">60dp</dimen>
 
+    <!-- notification launcher settings-->
     <dimen name="notification_launcher_settings_icon_size">80dp</dimen>
     <dimen name="notification_launcher_settings_item_padding_h">10dp</dimen>
     <dimen name="notification_launcher_settings_grid_padding">20dp</dimen>
     <dimen name="notification_launcher_settings_vertical_spacing">20dp</dimen>
     <dimen name="notification_launcher_settings_horizontal_spacing">5dp</dimen>
+
+    <!-- icon settings panel-->
+    <dimen name="icon_settings_panel_height">160dp</dimen>
 </resources>

@@ -1,4 +1,4 @@
-package yhh.bj4.quicklauncher;
+package yhh.bj4.quicklauncher.Activity;
 
 import android.app.Fragment;
 
